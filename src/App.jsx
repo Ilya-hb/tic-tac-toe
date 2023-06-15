@@ -9,15 +9,8 @@ function App() {
   const [scoreP1, setScoreP1] = useState(0); //score player X
   const [scoreP2, setScoreP2] = useState(0); //score player o
   const [countPlayedGames, setCountPlayedGames] = useState(0);
-  const [selectedSizing, setSelectedSizing] = useState(9);
-  const [board, setBoard] = useState(Array(selectedSizing).fill(null));
+  const [board, setBoard] = useState(Array(9).fill(null));
   const [showModal, setShowModal] = useState(false);
-
-  const handleSizingSelect = (e) => {
-    const newSize = parseInt(e.target.value);
-    setSelectedSizing(newSize);
-    setBoard(Array(newSize).fill(null));
-  };
 
   const handleModalClose = () => {
     setShowModal(false);
@@ -25,18 +18,18 @@ function App() {
 
   useEffect(() => {
     //if it's winner or a draw display modal after 2s.
-    if (winner || countPlayedGames === selectedSizing) {
+    if (winner || countPlayedGames === 9) {
       const timer = setTimeout(() => {
         setShowModal(true);
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [winner, countPlayedGames, selectedSizing]);
+  }, [winner, countPlayedGames]);
 
   const handleNewGame = () => {
     setWinner(null);
     setCurrentPlayer("X");
-    setBoard(Array(selectedSizing).fill(null));
+    setBoard(Array(9).fill(null));
   };
 
   const handleClick = (index) => {
@@ -103,19 +96,6 @@ function App() {
           Welcome to Tic-Tac-Toe
         </h1>
         <div className="space-y-4 mt-4 text-center">
-          <label htmlFor="sizing" className="py-5 text-2xl">
-            Select your board sizing:
-          </label>
-          <select
-            name="sizing"
-            id="sizing"
-            className="bg-white text-black text-xl px-5 py-2 my-6 mx-6 border-none"
-            onChange={handleSizingSelect}
-          >
-            <option value={9}>3x3</option>
-            <option value={36}>6x6</option>
-            <option value={81}>9x9</option>
-          </select>
           <p className="text-2xl">Played games: {countPlayedGames}</p>
         </div>
         <div className="flex w-full flex-row justify-between">
@@ -132,12 +112,7 @@ function App() {
             <p className="text-3xl">Score: {scoreP2}</p>
           </div>
         </div>
-        <TileGrid
-          board={board}
-          winner={winner}
-          selectedSize={selectedSizing}
-          handleClick={handleClick}
-        />
+        <TileGrid board={board} winner={winner} handleClick={handleClick} />
         <button
           className="mx-auto sm:mx-0 text-xl w-40 mt-4 bg-gray-600 hover:bg-gray-700 text-white font-semibold px-6 py-3 transition-colors duration-300 ease-in-out block"
           onClick={handleNewGame}

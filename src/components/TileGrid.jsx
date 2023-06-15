@@ -1,9 +1,9 @@
 import React from "react";
 
-function TileGrid({ board, selectedSize, handleClick }) {
+function TileGrid({ board, handleClick }) {
   return (
     <>
-      <div className={`grid grid-cols-${Math.sqrt(selectedSize)} gap-2`}>
+      <div className={`grid grid-cols-3 gap-2`}>
         {board.map((cell, index) => (
           <button
             key={index}
